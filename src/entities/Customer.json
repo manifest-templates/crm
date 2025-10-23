@@ -1,0 +1,48 @@
+{
+  "name": "Customer",
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "description": "Customer's first name"
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Customer's last name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Customer's email address"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Customer's phone number"
+    },
+    "company": {
+      "type": "string",
+      "description": "Customer's company name"
+    },
+    "jobTitle": {
+      "type": "string",
+      "description": "Customer's job title"
+    },
+    "status": {
+      "type": "string",
+      "description": "Customer status (Lead, Prospect, Active, Inactive)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the customer"
+    },
+    "lastContact": {
+      "type": "string",
+      "description": "Date of last contact with customer"
+    }
+  },
+  "required": [
+    "firstName",
+    "lastName",
+    "email",
+    "status"
+  ]
+}
