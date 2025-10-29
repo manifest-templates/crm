@@ -204,58 +204,7 @@ Database interaction should primarily use the entity system involved above. Howe
 # Secret Keys
 You can see what ENV variables are available for the backend to access by using the MCP tool mcp__my-custom-tools__list_backend_env_variables - this will not show values but it will show variable names that the backend functions can safely reference.
 
-# Runtime Error Debugging with Lighthouse
-
-Lighthouse is your primary tool for diagnosing runtime errors in the deployed application. When users report errors or unexpected behavior, use Lighthouse to see console errors, JavaScript failures, and network issues.
-
-## When to Use Lighthouse
-
-**ALWAYS run Lighthouse when:**
-- User reports "something isn't working" or "getting an error"
-- Debugging runtime issues or crashes
-- After making code changes (verify no new errors)
-- Need to see what's actually happening in the browser
-
-## Important: URL Format
-
-The app runs at: `https://manifest-app-{APP_ID}.fly.dev/preview/`
-
-Get the APP_ID from the .env file in the workspace:
-```bash
-APP_ID=$(grep VITE_APP_ID .env | cut -d '=' -f2)
-URL="https://manifest-app-${APP_ID}.fly.dev/preview/"
-```
-
-## Running Lighthouse for Error Detection
-
-```bash
-# Get the app URL
-APP_ID=$(grep VITE_APP_ID .env | cut -d '=' -f2)
-URL="https://manifest-app-${APP_ID}.fly.dev/preview/"
-
-# Run Lighthouse to capture console errors and runtime issues
-lighthouse "$URL" --output=json --output-path=./lighthouse-reports/report --chrome-flags="--headless --no-sandbox"
-
-# Check for errors in the report
-cat ./lighthouse-reports/report.json | grep -A 20 "errors-in-console"
-```
-
-## What to Look For
-
-**Primary focus:**
-- **Console errors** in `audits['errors-in-console']`: JavaScript errors, network failures, CORS errors
-- **JavaScript execution failures**: Uncaught exceptions, failed promises
-- **Network errors**: 404s, 500s, failed API calls
-- **Resource loading failures**: Missing images, scripts, fonts
-
-## Debugging Workflow
-
-1. User reports: "The button doesn't work"
-2. Run Lighthouse on the preview URL
-3. Check JSON output for console errors
-4. Find error: `Uncaught TypeError: Cannot read property 'value' of null at app.js:45`
-5. Fix the issue in the code
-6. Re-run Lighthouse to verify error is gone
-7. Confirm fix with user
-
-**Remember: Lighthouse shows exactly what errors occur in the browser - use it to understand runtime problems.**
+# Error Handling/Double-checking major changes
+You have access to Lighthouse CI via the the CLI using Bash. Please run a Lighthouse CI report for any of the following scenarios:
+1. You just implemented a large feature/change that could benefit from double-checking for frontend console errors.
+2. The user is reporting frontend related errors that aren't immediately obvious in the source code and could potentially be debugged by checking console errors.
